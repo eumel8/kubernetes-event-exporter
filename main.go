@@ -88,7 +88,7 @@ func main() {
 	}
 	fmt.Println("get event")
 	w := kube.NewEventWatcher(kubeconfig, cfg.Namespace, cfg.ThrottlePeriod, onEvent)
-	fmt.Println("get watcher")
+	fmt.Println("get watcher:", w)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	leaderLost := make(chan bool)
