@@ -12,6 +12,7 @@ WORKDIR /home/appuser
 
 
 #COPY --from=builder --chown=appuser:appuser /main /kubernetes-event-exporter
+COPY --from=builder /main /kubernetes-event-exporter
 
 USER appuser
 
