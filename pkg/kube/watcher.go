@@ -1,6 +1,7 @@
 package kube
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/prometheus/client_golang/prometheus"
@@ -58,16 +59,19 @@ func NewEventWatcher(config *rest.Config, namespace string, throttlePeriod int64
 }
 
 func (e *EventWatcher) OnAdd(obj interface{}) {
+	fmt.Println("watcher OnAdd")
 	event := obj.(*corev1.Event)
 	e.onEvent(event)
 }
 
 func (e *EventWatcher) OnUpdate(oldObj, newObj interface{}) {
+	fmt.Println("watcher OnUpdate")
 	event := newObj.(*corev1.Event)
 	e.onEvent(event)
 }
 
 func (e *EventWatcher) onEvent(event *corev1.Event) {
+	fmt.Println("watcher OnEvent")
 	// TODO: Re-enable this after development
 	// It's probably an old event we are catching, it's not the best way but anyways
 	timestamp := event.LastTimestamp.Time
