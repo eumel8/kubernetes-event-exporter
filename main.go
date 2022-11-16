@@ -106,6 +106,7 @@ func main() {
 		if err != nil {
 			log.Fatal().Err(err).Msg("create leaderelector failed")
 		}
+		fmt.Println("run")
 		go l.Run(ctx)
 	} else {
 		w.Start()
