@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -75,6 +76,7 @@ func main() {
 	kubeconfig.Burst = cfg.KubeBurst
 
 	engine := exporter.NewEngine(&cfg, &exporter.ChannelBasedReceiverRegistry{})
+	fmt.Println("get engine")
 	onEvent := engine.OnEvent
 	if len(cfg.ClusterName) != 0 {
 		onEvent = func(event *kube.EnhancedEvent) {
@@ -84,7 +86,9 @@ func main() {
 			engine.OnEvent(event)
 		}
 	}
+	fmt.Println("get event")
 	w := kube.NewEventWatcher(kubeconfig, cfg.Namespace, cfg.ThrottlePeriod, onEvent)
+	fmt.Println("get watcher")
 
 	ctx, cancel := context.WithCancel(context.Background())
 	leaderLost := make(chan bool)
