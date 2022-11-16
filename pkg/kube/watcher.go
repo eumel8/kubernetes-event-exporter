@@ -3,6 +3,7 @@ package kube
 import (
 	"fmt"
 	"time"
+	"log"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -50,7 +51,20 @@ func NewEventWatcher(config *rest.Config, namespace string, throttlePeriod int64
 		throttlePeriod:  time.Second * time.Duration(throttlePeriod),
 	}
 
-	informer.AddEventHandler(watcher)
+	// informer.AddEventHandler(watcher)
+	informer.AddEventHandler(cache.ResourceEventHandlerFuncs{
+		AddFunc: func(obj interface{}) {
+			// "k8s.io/apimachinery/pkg/apis/meta/v1" provides an Object
+			// interface that allows us to get metadata easily
+			// mObj := obj.(v1.Object)
+			mObj := obj.(*corev1.Event)
+
+			log.Printf("============\n")
+			log.Printf("Event Message: %s", mObj.Message)
+			log.Printf("Reason: %s", mObj.Reason)
+		},
+	})
+
 	informer.SetWatchErrorHandler(func(r *cache.Reflector, err error) {
 		watchErrors.Inc()
 	})
