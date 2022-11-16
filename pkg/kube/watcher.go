@@ -55,7 +55,7 @@ func NewEventWatcher(config *rest.Config, namespace string, throttlePeriod int64
 		watchErrors.Inc()
 	})
 
-	fmt.Println("return watcher" , namespace)
+	fmt.Println("return watcher with namespace " , namespace)
 	return watcher
 }
 
