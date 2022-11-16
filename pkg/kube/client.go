@@ -1,6 +1,7 @@
 package kube
 
 import (
+	"fmt"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
@@ -19,8 +20,10 @@ func GetKubernetesClient() (*kubernetes.Clientset, error) {
 }
 
 func GetKubernetesConfig() (*rest.Config, error) {
+	fmt.Println("cluster auth")
 	config, err := rest.InClusterConfig()
 	if err == nil {
+		fmt.Println("auth config ", config)
 		return config, nil
 	} else if err != rest.ErrNotInCluster {
 		return nil, err
