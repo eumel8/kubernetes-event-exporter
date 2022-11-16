@@ -1,6 +1,9 @@
 package exporter
 
-import "github.com/opsgenie/kubernetes-event-exporter/pkg/kube"
+import (
+	"fmt"
+	"github.com/opsgenie/kubernetes-event-exporter/pkg/kube"
+)
 
 // Route allows using rules to drop events or match events to specific receivers.
 // It also allows using routes recursively for complex route building to fit
@@ -13,6 +16,7 @@ type Route struct {
 
 func (r *Route) ProcessEvent(ev *kube.EnhancedEvent, registry ReceiverRegistry) {
 	// First determine whether we will drop the event: If any of the drop is matched, we break the loop
+	fmt.Println("ProcessEvent: ", ev)
 	for _, v := range r.Drop {
 		if v.MatchesEvent(ev) {
 			return
