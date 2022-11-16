@@ -3,7 +3,7 @@ package kube
 import (
 	"fmt"
 	"time"
-	"log"
+	slog "log"
 
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -59,9 +59,9 @@ func NewEventWatcher(config *rest.Config, namespace string, throttlePeriod int64
 			// mObj := obj.(v1.Object)
 			mObj := obj.(*corev1.Event)
 
-			log.Printf("============\n")
-			log.Printf("Event Message: %s", mObj.Message)
-			log.Printf("Reason: %s", mObj.Reason)
+			slog.Printf("============\n")
+			slog.Printf("Event Message: %s", mObj.Message)
+			slog.Printf("Reason: %s", mObj.Reason)
 		},
 	})
 
